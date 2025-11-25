@@ -40,10 +40,13 @@
      */
     function getTodayDevotionIndex() {
         const now = new Date();
-        const start = new Date(now.getFullYear(), 0, 0);
-        const diff = now - start;
+        // Day 0 of month 0 is December 31 of previous year
+        // This is a standard pattern for calculating day of year
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const diff = now - startOfYear;
         const oneDay = 1000 * 60 * 60 * 24;
-        const dayOfYear = Math.floor(diff / oneDay);
+        // Add 1 because Jan 1 should be day 1, not day 0
+        const dayOfYear = Math.floor(diff / oneDay) + 1;
         
         // Cycle through devotions based on day of year
         return dayOfYear % devotions.length;
